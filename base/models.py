@@ -15,6 +15,6 @@ class UserModel(Base):
     user_id = Column(Integer, unique=True, nullable=False)
     total_searches = Column(Integer, unique=False, nullable=False, default=0)
     is_admin = Column(Boolean, unique=False, nullable=False, default=False)
-    is_vrefied = Column(Boolean, unique=False, nullable=False, default=True)
+    is_vrefied = Column(Boolean, unique=False, nullable=False, default=False)
     is_superuser = Column(Boolean, unique=False, nullable=False, default=False)
     is_banned = Column(Boolean, unique=False, nullable=False, default=False)
