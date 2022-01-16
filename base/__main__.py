@@ -17,8 +17,8 @@ from telegram.ext import (
 )
 
 from handlers import *
-#from session import engine
-#from base_class import Base
+from session import engine
+from base_class import Base
 
 
 # Parsing bot configartion fot reading bot token
@@ -39,18 +39,19 @@ dispatcher = updater.dispatcher
 
 start_command_handler = CommandHandler("start", start, run_async=True)
 search_photo_handler = MessageHandler(Filters.photo, search_image, run_async=True)
-bot_statistics_handler = MessageHandler(Filters.user(1398458529) & Filters.regex("^آمار ربات$"), bot_statistics, run_async=True)
-user_statistics_handler = MessageHandler(Filters.user(1398458529) & Filters.regex("^آمار کاربر$"), user_statistics, run_async=True)
-public_message_handler = MessageHandler(Filters.user(1398458529) & Filters.regex("^پیام همگانی$"), public_message, run_async=True)
+bot_statistics_handler = MessageHandler(Filters.user([1398458529, 5094916882]) & Filters.regex("^آمار ربات$"), bot_statistics, run_async=True)
+user_statistics_handler = MessageHandler(Filters.user([1398458529, 5094916882]) & Filters.regex("^آمار کاربر$"), user_statistics, run_async=True)
+public_message_handler = MessageHandler(Filters.user([1398458529, 5094916882]) & Filters.regex("^پیام همگانی$"), public_message, run_async=True)
+signup_user_by_admin = MessageHandler(Filters.user([1398458529, 5094916882]) & Filters.regex("^ثبت نام$"), signup_by_admin, run_async=True)
 
 dispatcher.add_handler(start_command_handler)
 dispatcher.add_handler(search_photo_handler)
 dispatcher.add_handler(bot_statistics_handler)
 dispatcher.add_handler(user_statistics_handler)
 dispatcher.add_handler(public_message_handler)
-
+dispatcher.add_handler(signup_user_by_admin)
 
 # Running bot
 if __name__ == "__main__":
-    #Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
     updater.start_polling()
