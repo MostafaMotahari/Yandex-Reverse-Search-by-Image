@@ -43,7 +43,7 @@ search_photo_handler = MessageHandler(Filters.photo, search_image, run_async=Tru
 bot_statistics_handler = MessageHandler(Filters.user([1398458529, 5094916882]) & Filters.regex("^آمار ربات$"), bot_statistics, run_async=True)
 user_statistics_handler = MessageHandler(Filters.user([1398458529, 5094916882]) & Filters.regex("^آمار کاربر$"), user_statistics, run_async=True)
 public_message_handler = MessageHandler(Filters.user([1398458529, 5094916882]) & Filters.regex("^پیام همگانی$"), public_message, run_async=True)
-signup_user_by_admin = MessageHandler(Filters.user([1398458529, 5094916882]) & Filters.regex("^ثبت نام$"), signup_by_admin, run_async=True)
+signup_user_by_admin = MessageHandler(Filters.user([1398458529, 5094916882]) & Filters.regex("Id: "), signup_by_admin, run_async=True)
 
 dispatcher.add_handler(start_command_handler)
 dispatcher.add_handler(search_photo_handler)
