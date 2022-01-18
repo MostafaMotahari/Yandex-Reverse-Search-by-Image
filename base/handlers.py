@@ -1,9 +1,11 @@
 # Imports
+import re
+
 from telegram import Update
 from telegram.ext import CallbackContext
 
 from plugins import google_search
-from session import get_db
+from session import get_db, TEMP_DATA
 from db_methods import (
     get_users_list,
     sign_up,
@@ -16,10 +18,9 @@ import messages
 # Handlers
 
 # Check user verfing
-def verify_user(db, update: Update, user_id: int):
-    users_list = get_users_list(db)
-
-    if user_id not in users_list:
+def verify_user(update: Update, user_id: int):
+    global TEMP_DATA
+    if user_id not in TEMP_DATA:
         update.message.reply_text(
             messages.signup_failed
         )
@@ -30,10 +31,9 @@ def verify_user(db, update: Update, user_id: int):
 
 # Start Message
 def start(update: Update, context: CallbackContext):
-    db = get_db().__next__()
     user_id = update.message.from_user.id
     
-    if verify_user(db, update, user_id):
+    if verify_user(update, user_id):
         update.message.reply_text(
             messages.start_msg
         )
@@ -44,7 +44,7 @@ def search_image(update: Update, context: CallbackContext):
     db = get_db().__next__()
     user_id = update.message.from_user.id
     
-    if not verify_user(db, update, user_id):
+    if not verify_user(update, user_id):
         return 0        
 
     google_search(
@@ -127,7 +127,9 @@ def public_message(update: Update, context: CallbackContext):
 def signup_by_admin(update: Update, context: CallbackContext):
     db = get_db().__next__()
 
-    target_user_id = int(update.message.reply_to_message.text)
+    target_user_id = int(
+        re.findall("Id: (.*)", update.message.text)[0]
+    )
     sign_up(db, target_user_id)
 
     update.message.reply_text(

@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session, load_only
 
 from models import UserModel
+from session import TEMP_DATA
 
 # Get Users List
 def get_users_list(db: Session):
@@ -45,6 +46,10 @@ def sign_up(db: Session, user_id: int, first_search=False):
             user_id = user_id,
             total_searches = 0
         )
+
+    # Add user in temporary database
+    global TEMP_DATA
+    TEMP_DATA.append(user_id)
 
     db.add(user)
     db.commit()

@@ -21,3 +21,7 @@ def get_db() -> Generator:
         yield db
     finally:
         db.close()
+
+
+# Temporary databsae
+TEMP_DATA = []

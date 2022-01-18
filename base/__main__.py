@@ -19,6 +19,7 @@ from telegram.ext import (
 from handlers import *
 from session import engine
 from base_class import Base
+from plugins import create_local_database
 
 
 # Parsing bot configartion fot reading bot token
@@ -54,4 +55,5 @@ dispatcher.add_handler(signup_user_by_admin)
 # Running bot
 if __name__ == "__main__":
     Base.metadata.create_all(bind=engine)
+    create_local_database()
     updater.start_polling()
